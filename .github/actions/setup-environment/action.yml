@@ -1,6 +1,9 @@
 name: "Setup"
 description: "Setup node.js environment"
 inputs:
+  npm_token:
+    description: NPM token
+    required: false
   node-version:
     description: Node version to be installed
     required: false
@@ -56,6 +59,8 @@ runs:
 
     - name: Install dependencies
       shell: bash
+      env:
+        NPM_TOKEN: ${{ input.npm_token }}
       run: pnpm install --prefer-offline
 
     - name: Cache turbo build setup
