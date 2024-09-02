@@ -1,9 +1,6 @@
 name: "Setup"
 description: "Setup node.js environment"
 inputs:
-  npm_token:
-    description: NPM token
-    required: false
   node-version:
     description: Node version to be installed
     required: false
@@ -62,9 +59,6 @@ runs:
           echo "$(sed 's/\(_authToken=\)[a-z0-9]*\($\)/\1${{ env.NPM_TOKEN }}\2/g' .npmrc)" > .npmrc
       env:
         NPM_TOKEN: ${{ inputs.npm_token }}
-    - name: Install dependencies
-      shell: bash
-      run: pnpm install --prefer-offline
 
     - name: Cache turbo build setup
       uses: actions/cache@v4
