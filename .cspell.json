@@ -1,0 +1,26 @@
+{
+  "version": "0.1",
+  "language": "en",
+  "words": [
+    "acks",
+    "conventionalcommits",
+    "degit",
+    "esbuild",
+    "execa",
+    "kafkajs",
+    "npmlog",
+    "octocat",
+    "apart-re",
+    "rmrf",
+    "socio",
+    "MQQT"
+  ],
+  "flagWords": [],
+  "ignorePaths": [
+    "package.json",
+    "package-lock.json",
+    "yarn.lock",
+    "tsconfig.json",
+    "node_modules/**"
+  ]
+}
