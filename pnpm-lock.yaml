@@ -8,12 +8,12 @@ importers:
 
   .:
     dependencies:
-      '@apart-re/utils':
-        specifier: ^1.0.1
-        version: 1.0.1(knex@2.5.1)
       '@azure/service-bus':
         specifier: ^7.9.1
         version: 7.9.1
+      '@otedesco/commons':
+        specifier: ^0.0.2
+        version: 0.0.2(knex@2.5.1)
       bluebird:
         specifier: ^3.7.2
         version: 3.7.2
@@ -27,6 +27,9 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
     devDependencies:
+      '@changesets/changelog-github':
+        specifier: ^0.5.0
+        version: 0.5.0
       '@changesets/cli':
         specifier: ^2.27.7
         version: 2.27.7
@@ -106,10 +109,6 @@ packages:
   '@ampproject/remapping@2.2.1':
     resolution: {integrity: sha512-lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==}
     engines: {node: '>=6.0.0'}
-
-  '@apart-re/utils@1.0.1':
-    resolution: {integrity: sha512-B4bg05mGha9wD+eff+KPako07cejI+pV4HaaGQhbwD0g0diOfJk2Eymvo+yp57hNYoUfOq606FptpguD/9dRzA==, tarball: https://npm.pkg.github.com/download/@apart-re/utils/1.0.1/52e148bd5fd250de6e90fcec34717315b83650ca}
-    engines: {pnpm: 8.6.10}
 
   '@azure/abort-controller@1.1.0':
     resolution: {integrity: sha512-TrRLIoSQVzfAJX9H1JeFjzAoDGcoK1IYX1UImfceTZpsyYfWr09Ss1aHW1y5TrrR3iq6RZLBwJ3E24uwPhwahw==}
@@ -258,6 +257,9 @@ packages:
   '@changesets/changelog-git@0.2.0':
     resolution: {integrity: sha512-bHOx97iFI4OClIT35Lok3sJAwM31VbUM++gnMBV16fdbtBhgYu4dxsphBF/0AZZsyAHMrnM0yFcj5gZM1py6uQ==}
 
+  '@changesets/changelog-github@0.5.0':
+    resolution: {integrity: sha512-zoeq2LJJVcPJcIotHRJEEA2qCqX0AQIeFE+L21L8sRLPVqDhSXY8ZWAt2sohtBpFZkBwu+LUwMSKRr2lMy3LJA==}
+
   '@changesets/cli@2.27.7':
     resolution: {integrity: sha512-6lr8JltiiXPIjDeYg4iM2MeePP6VN/JkmqBsVA5XRiy01hGS3y629LtSDvKcycj/w/5Eur1rEwby/MjcYS+e2A==}
     hasBin: true
@@ -270,6 +272,9 @@ packages:
 
   '@changesets/get-dependents-graph@2.1.1':
     resolution: {integrity: sha512-LRFjjvigBSzfnPU2n/AhFsuWR5DK++1x47aq6qZ8dzYsPtS/I5mNhIGAS68IAxh1xjO9BTtz55FwefhANZ+FCA==}
+
+  '@changesets/get-github-info@0.6.0':
+    resolution: {integrity: sha512-v/TSnFVXI8vzX9/w3DU2Ol+UlTZcu3m0kXTjTT4KlAdwSvwutcByYwyYn9hwerPWfPkT2JfpoX0KgvCEi8Q/SA==}
 
   '@changesets/get-release-plan@4.0.3':
     resolution: {integrity: sha512-6PLgvOIwTSdJPTtpdcr3sLtGatT+Jr22+cQwEBJBy6wP0rjB4yJ9lv583J9fVpn1bfQlBkDa8JxbS2g/n9lIyA==}
@@ -692,6 +697,10 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@otedesco/commons@0.0.2':
+    resolution: {integrity: sha512-VhvgI/c69wLMKpEauOQ0ONUwMuMcfcrlRDqUeEjtvqT+l91tnmnalZHg0w6oSuGtV5w+0UE+piDKH3q79gJUfQ==, tarball: https://npm.pkg.github.com/download/@otedesco/commons/0.0.2/d97c65df5325f4d7057b94e385cf8751fa658d20}
+    engines: {pnpm: '>8.6.10'}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1288,6 +1297,9 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  dataloader@1.4.0:
+    resolution: {integrity: sha512-68s5jYdlvasItOJnCuI2Q9s4q98g0pCyL3HrcKJu8KNugUl8ahgmZYg38ysLTgQjjXX3H8CJLkAvWrclWfcalw==}
+
   db-errors@0.2.3:
     resolution: {integrity: sha512-OOgqgDuCavHXjYSJoV2yGhv6SeG8nk42aoCSoyXLZUH7VwFG27rxbavU1z+VrZbZjphw5UkDQwUlD21MwZpUng==}
 
@@ -1382,6 +1394,10 @@ packages:
   dotenv@16.3.1:
     resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
     engines: {node: '>=12'}
+
+  dotenv@8.6.0:
+    resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
+    engines: {node: '>=10'}
 
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
@@ -3288,17 +3304,6 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.3
       '@jridgewell/trace-mapping': 0.3.19
 
-  '@apart-re/utils@1.0.1(knex@2.5.1)':
-    dependencies:
-      bcryptjs: 2.4.3
-      bluebird: 3.7.2
-      jsonwebtoken: 9.0.2
-      lodash: 4.17.21
-      objection: 3.1.1(knex@2.5.1)
-      objection-db-errors: 1.1.2(objection@3.1.1(knex@2.5.1))
-    transitivePeerDependencies:
-      - knex
-
   '@azure/abort-controller@1.1.0':
     dependencies:
       tslib: 2.6.2
@@ -3559,6 +3564,14 @@ snapshots:
     dependencies:
       '@changesets/types': 6.0.0
 
+  '@changesets/changelog-github@0.5.0':
+    dependencies:
+      '@changesets/get-github-info': 0.6.0
+      '@changesets/types': 6.0.0
+      dotenv: 8.6.0
+    transitivePeerDependencies:
+      - encoding
+
   '@changesets/cli@2.27.7':
     dependencies:
       '@babel/runtime': 7.25.6
@@ -3615,6 +3628,13 @@ snapshots:
       chalk: 2.4.2
       fs-extra: 7.0.1
       semver: 7.5.4
+
+  '@changesets/get-github-info@0.6.0':
+    dependencies:
+      dataloader: 1.4.0
+      node-fetch: 2.7.0
+    transitivePeerDependencies:
+      - encoding
 
   '@changesets/get-release-plan@4.0.3':
     dependencies:
@@ -4028,6 +4048,20 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+
+  '@otedesco/commons@0.0.2(knex@2.5.1)':
+    dependencies:
+      '@changesets/changelog-github': 0.5.0
+      '@changesets/cli': 2.27.7
+      bcryptjs: 2.4.3
+      bluebird: 3.7.2
+      jsonwebtoken: 9.0.2
+      lodash: 4.17.21
+      objection: 3.1.1(knex@2.5.1)
+      objection-db-errors: 1.1.2(objection@3.1.1(knex@2.5.1))
+    transitivePeerDependencies:
+      - encoding
+      - knex
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -4720,6 +4754,8 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
+  dataloader@1.4.0: {}
+
   db-errors@0.2.3: {}
 
   debug@3.2.7:
@@ -4797,6 +4833,8 @@ snapshots:
       is-obj: 2.0.0
 
   dotenv@16.3.1: {}
+
+  dotenv@8.6.0: {}
 
   eastasianwidth@0.2.0: {}
 
