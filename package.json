@@ -17,7 +17,6 @@
     "url": "https://github.com/otedesco/notify.git"
   },
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
     "build": "pnpm run clean && pnpm run type:dts && pnpm run build:main",
     "build:main": "swc ./src -d ./dist",
     "clean": "rimraf build coverage nyc_output",
@@ -27,15 +26,15 @@
     "format:check": "prettier \"src/**/*.ts\" --check",
     "lint": "eslint src --ext .ts --fix",
     "lint:check": "eslint src --ext .ts",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "test:watch": "vitest watch",
     "test:coverage": "vitest run --coverage",
     "spell:check": "cspell \"{README.md,CODE_OF_CONDUCT.md,CONTRIBUTING.md,.github/*.md,src/**/*.ts}\"",
-    "cz": "cz",
-    "semantic-release": "semantic-release"
+    "release": "pnpm build && changeset publish",
+    "commit": "pnpm changeset"
   },
   "dependencies": {
-    "@apart-re/utils": "^1.0.1",
+    "@otedesco/commons": "^0.0.2",
     "@azure/service-bus": "^7.9.1",
     "bluebird": "^3.7.2",
     "dotenv": "^16.3.1",
