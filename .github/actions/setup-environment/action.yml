@@ -66,11 +66,6 @@ runs:
         NPM_TOKEN: ${{ inputs.npm_token }}
     - name: Install dependencies
       shell: bash
-<<<<<<< Updated upstream
-      env:
-        NPM_TOKEN: ${{ inputs.npm_token }}
-=======
->>>>>>> Stashed changes
       run: pnpm install --prefer-offline
 
     - name: Cache turbo build setup
