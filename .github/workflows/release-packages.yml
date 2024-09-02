@@ -21,6 +21,8 @@ jobs:
         uses: otedesco/notify/.github/actions/setup-environment@main
         with:
           os: ubuntu-latest
+          npm_token: ${{ secrets.NPM_TOKEN }}
+
       - name: Creating .npmrc
         run: |
           cat << EOF > "$HOME/.npmrc"
