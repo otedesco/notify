@@ -56,11 +56,21 @@ runs:
           restore-keys: |
                 ${{ runner.os }}-pnpm-
           path: ~/.local/share/pnpm
-
+    - name: Creating .npmrc
+      shell: bash
+      run: |
+          cat << EOF > "$HOME/.npmrc"
+            //npm.pkg.github.com/:_authToken=$NPM_TOKEN
+          EOF
+      env:
+        NPM_TOKEN: ${{ inputs.npm_token }}
     - name: Install dependencies
       shell: bash
+<<<<<<< Updated upstream
       env:
-        NPM_TOKEN: ${{ input.npm_token }}
+        NPM_TOKEN: ${{ inputs.npm_token }}
+=======
+>>>>>>> Stashed changes
       run: pnpm install --prefer-offline
 
     - name: Cache turbo build setup
