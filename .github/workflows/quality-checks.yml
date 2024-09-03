@@ -80,7 +80,7 @@ jobs:
         uses: otedesco/notify/.github/actions/setup-environment@main
         with:
           os: ubuntu-latest
-
+      ## Remove repeated code
       - name: Install dependencies
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
