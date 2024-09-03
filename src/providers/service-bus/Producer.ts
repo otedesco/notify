@@ -1,4 +1,8 @@
-import type { ServiceBusClient, ServiceBusMessage, ServiceBusSender } from "@azure/service-bus";
+import type {
+  ServiceBusClient,
+  ServiceBusMessage,
+  ServiceBusSender,
+} from "@azure/service-bus";
 import _ from "lodash";
 
 import { PRODUCE_EVENTS, PRODUCER_TOPIC_PREFIX } from "../../config";
@@ -6,19 +10,25 @@ import { getClientPerHost } from "./Connection";
 
 const producersPerTopic: { [topic: string]: ServiceBusProducer } = {};
 
-const getProducer = (topic: string) => (PRODUCE_EVENTS ? _.get(producersPerTopic, topic, null) : null);
+const getProducer = (topic: string) =>
+  PRODUCE_EVENTS ? _.get(producersPerTopic, topic, null) : null;
 
 const producerKey = (topic: string) => `${PRODUCER_TOPIC_PREFIX}_${topic}`;
 
 const toServiceBusMessages = <T>(message: T): ServiceBusMessage[] => {
   const messagesRaw = Array.isArray(message) ? message : [message];
 
-  const messages = messagesRaw.map(({ name, metadata, timestamp, payload }) => ({
-    messageId: name,
-    contentType: "application/json",
-    applicationProperties: { timestamp, ...metadata },
-    body: typeof payload === "object" ? JSON.stringify(payload) : payload.toString(),
-  }));
+  const messages = messagesRaw.map(
+    ({ name, metadata, timestamp, payload }) => ({
+      messageId: name,
+      contentType: "application/json",
+      applicationProperties: { timestamp, ...metadata },
+      body:
+        typeof payload === "object"
+          ? JSON.stringify(payload)
+          : payload.toString(),
+    }),
+  );
 
   return messages;
 };
@@ -45,7 +55,8 @@ class ServiceBusProducer {
   private static sendMessage = async <T>(topic: string, message: T) => {
     if (!process.env.PRODUCE_EVENTS) return false;
     const prefixedTopic = producerKey(topic);
-    const producerInstance = getProducer(prefixedTopic) || this.startProducer(prefixedTopic);
+    const producerInstance =
+      getProducer(prefixedTopic) || this.startProducer(prefixedTopic);
     await producerInstance.send(message);
 
     return true;

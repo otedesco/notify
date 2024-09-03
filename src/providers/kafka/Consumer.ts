@@ -17,9 +17,10 @@ const getConsumer = async (
   kafka: Kafka,
   host: ConsumerConfig["host"],
   groupId: ConsumerConfig["groupId"],
-  maxBytesPerPartition?: ConsumerConfig["maxBytesPerPartition"]
+  maxBytesPerPartition?: ConsumerConfig["maxBytesPerPartition"],
 ) => {
-  const ConsumerPerGroupId: ConsumerPerGroupIdType = ConsumerPerHostAndGroupId[host] || {};
+  const ConsumerPerGroupId: ConsumerPerGroupIdType =
+    ConsumerPerHostAndGroupId[host] || {};
   let consumer = ConsumerPerGroupId[groupId];
 
   if (consumer) {
@@ -47,14 +48,29 @@ class KafkaConsumer {
   }
 
   private async initialize(config: ConsumerConfig) {
-    const { topics, host, groupId, commitIntervalSeconds, maxBytesPerPartition } = config;
+    const {
+      topics,
+      host,
+      groupId,
+      commitIntervalSeconds,
+      maxBytesPerPartition,
+    } = config;
 
     this.topics = _.keyBy(topics, "name");
 
     const kafka = getClientPerHost(config);
-    const consumer = await getConsumer(kafka, host, groupId, maxBytesPerPartition);
+    const consumer = await getConsumer(
+      kafka,
+      host,
+      groupId,
+      maxBytesPerPartition,
+    );
 
-    await mapConcurrent(topics, (topic) => consumer.subscribe({ topic: topic.name }), 1);
+    await mapConcurrent(
+      topics,
+      (topic) => consumer.subscribe({ topic: topic.name }),
+      1,
+    );
 
     await consumer.run({
       autoCommitThreshold: 100,
@@ -66,13 +82,18 @@ class KafkaConsumer {
     });
   }
 
-  private async onMessageBatch({ batch, commitOffsetsIfNecessary }: EachBatchPayload) {
+  private async onMessageBatch({
+    batch,
+    commitOffsetsIfNecessary,
+  }: EachBatchPayload) {
     const { topic: topicName, partition, messages } = batch;
     const startTime = Date.now();
     const batchKey = `${partition}-${batch.firstOffset()}-${batch.lastOffset()}`;
     // FIXME: think about how to implement logging
     // logger.info(`Processing ${topicName} - ${batchKey} (part-offset.first-offset.last). ${messages.length} msgs`);
-    console.info(`Processing ${topicName} - ${batchKey} (part-offset.first-offset.last). ${messages.length} msgs`);
+    console.info(
+      `Processing ${topicName} - ${batchKey} (part-offset.first-offset.last). ${messages.length} msgs`,
+    );
     const topicConfig = this.topics![topicName];
 
     await mapConcurrent(
@@ -99,16 +120,20 @@ class KafkaConsumer {
 
           console.error(
             `Failed to process (topic: ${topicName}, part: ${partition}, offset: ${offset}). Err: ${JSON.stringify(
-              error
-            )}`
+              error,
+            )}`,
           );
         }
       },
-      topicConfig?.concurrency
+      topicConfig?.concurrency,
     );
 
     // logger.info(`Done Processing batch: ${batchKey}. (Took: ${(Date.now() - startTime) / 1000}s)`);
-    console.info(`Done Processing batch: ${batchKey}. (Took: ${(Date.now() - startTime) / 1000}s)`);
+    console.info(
+      `Done Processing batch: ${batchKey}. (Took: ${
+        (Date.now() - startTime) / 1000
+      }s)`,
+    );
     await commitOffsetsIfNecessary();
   }
 }
