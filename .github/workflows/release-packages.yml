@@ -21,14 +21,13 @@ jobs:
         uses: otedesco/notify/.github/actions/setup-environment@main
         with:
           os: ubuntu-latest
-          npm_token: ${{ secrets.NPM_TOKEN }}
-          
+
       - name: Install dependencies
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          echo "Running pnpm install --frozen-lockfile"
-          pnpm install --frozen-lockfile
+          echo "Running pnpm install"
+          pnpm install
 
       - name: Creating .npmrc
         run: |
