@@ -1,10 +1,6 @@
-import {
-  ServiceBusClient,
-  ServiceBusReceivedMessage,
-  ServiceBusReceiver,
-} from "@azure/service-bus";
+import type { ServiceBusClient, ServiceBusReceivedMessage, ServiceBusReceiver } from "@azure/service-bus";
 
-import { ConsumerConfig, Topic } from "../../interfaces/ConsumerConfig";
+import type { ConsumerConfig, Topic } from "../../interfaces/ConsumerConfig";
 import { getClientPerHost } from "./Connection";
 
 interface ConsumerPerTopicType {
@@ -19,10 +15,9 @@ const getConsumer = (
   client: ServiceBusClient,
   host: ConsumerConfig["host"],
   topic: Topic,
-  groupId: ConsumerConfig["groupId"],
+  groupId: ConsumerConfig["groupId"]
 ) => {
-  const ConsumerPerTopic: ConsumerPerTopicType =
-    ConsumerPerHostAndGroupId[host] || {};
+  const ConsumerPerTopic: ConsumerPerTopicType = ConsumerPerHostAndGroupId[host] || {};
   let consumer = ConsumerPerTopic[topic.name];
 
   if (consumer) {
@@ -56,8 +51,7 @@ class ServiceBusConsumer {
 
       if (typeof topic.handler !== "undefined") {
         consumer.subscribe({
-          processMessage: ({ messageId, body }: ServiceBusReceivedMessage) =>
-            topic.handler!(messageId, body),
+          processMessage: ({ messageId, body }: ServiceBusReceivedMessage) => topic.handler!(messageId, body),
           processError: config.handleError!,
         });
       }

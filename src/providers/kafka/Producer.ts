@@ -1,19 +1,8 @@
-import {
-  CompressionTypes,
-  Kafka,
-  Logger,
-  Message,
-  Producer,
-  ProducerConfig,
-} from "kafkajs";
+import { CompressionTypes, type Kafka, type Logger, type Message, type Producer, type ProducerConfig } from "kafkajs";
 import _ from "lodash";
 
-import {
-  KAFKA_CLIENT_HOST,
-  PRODUCE_EVENTS,
-  PRODUCER_TOPIC_PREFIX,
-} from "../../config";
-import { getClientPerHost, KafkaClientConfig } from "./Connection";
+import { KAFKA_CLIENT_HOST, PRODUCE_EVENTS, PRODUCER_TOPIC_PREFIX } from "../../config";
+import { getClientPerHost, type KafkaClientConfig } from "./Connection";
 
 const DEFAULT_REQUIRE_ACKS = 1;
 
@@ -21,8 +10,7 @@ const producersPerTopic: { [topic: string]: Promise<KafkaProducer> } = {};
 
 const producerKey = (topic: string) => `${PRODUCER_TOPIC_PREFIX}_${topic}`;
 
-const getProducer = (topic: string) =>
-  PRODUCE_EVENTS ? _.get(producersPerTopic, topic, null) : null;
+const getProducer = (topic: string) => (PRODUCE_EVENTS ? _.get(producersPerTopic, topic, null) : null);
 
 const getConfig = () => ({
   host: KAFKA_CLIENT_HOST,
@@ -31,17 +19,12 @@ const getConfig = () => ({
 const toKafkaMessage = <T>(message: T): Message[] => {
   const messagesRaw = Array.isArray(message) ? message : [message];
 
-  const messages = messagesRaw.map(
-    ({ name, metadata, timestamp, payload }) => ({
-      key: name,
-      headers: metadata,
-      timestamp,
-      value:
-        typeof payload === "object"
-          ? JSON.stringify(payload)
-          : payload.toString(),
-    }),
-  );
+  const messages = messagesRaw.map(({ name, metadata, timestamp, payload }) => ({
+    key: name,
+    headers: metadata,
+    timestamp,
+    value: typeof payload === "object" ? JSON.stringify(payload) : payload.toString(),
+  }));
 
   return messages;
 };
@@ -84,16 +67,10 @@ class KafkaProducer {
     if (!PRODUCE_EVENTS) return false;
     const prefixedTopic = producerKey(topic);
 
-    const producerInstance =
-      (await getProducer(prefixedTopic)) ||
-      (await this.startProducer(prefixedTopic));
+    const producerInstance = (await getProducer(prefixedTopic)) || (await this.startProducer(prefixedTopic));
     producerInstance?.producer
       .logger()
-      .info(
-        `New outgoing message for topic: ${prefixedTopic}. Message: ${JSON.stringify(
-          message,
-        )}`,
-      );
+      .info(`New outgoing message for topic: ${prefixedTopic}. Message: ${JSON.stringify(message)}`);
 
     await producerInstance?.send(message);
 
@@ -102,16 +79,12 @@ class KafkaProducer {
 
   private static startProducer = (topic: string, config = getConfig()) => {
     const producerInstance = new KafkaProducer({ topic, ...config });
-    const asyncProducerReference: Promise<KafkaProducer> = new Promise(
-      (resolve) => {
-        producerInstance.producer.on("producer.connect", () => {
-          producerInstance.logger.info(
-            `Producer connected successfully. Topic: ${topic}`,
-          );
-          resolve(producerInstance);
-        });
-      },
-    );
+    const asyncProducerReference: Promise<KafkaProducer> = new Promise((resolve) => {
+      producerInstance.producer.on("producer.connect", () => {
+        producerInstance.logger.info(`Producer connected successfully. Topic: ${topic}`);
+        resolve(producerInstance);
+      });
+    });
 
     producersPerTopic[topic] = asyncProducerReference;
 

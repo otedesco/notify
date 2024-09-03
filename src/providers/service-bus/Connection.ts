@@ -1,8 +1,4 @@
-import {
-  RetryMode,
-  ServiceBusClient,
-  ServiceBusClientOptions,
-} from "@azure/service-bus";
+import { type RetryMode, ServiceBusClient, type ServiceBusClientOptions } from "@azure/service-bus";
 
 import {
   SB_CLIENT_ID,
@@ -36,8 +32,7 @@ const getConfig = (): ServiceBusClientConfig => {
 };
 
 export const getClientPerHost = (host: string) => {
-  const { clientId, maxRetries, timeoutInMs, retryDelayInMs, retryMode } =
-    getConfig();
+  const { clientId, maxRetries, timeoutInMs, retryDelayInMs, retryMode } = getConfig();
 
   if (!host) {
     host = getConfig().host;
@@ -60,10 +55,7 @@ export const getClientPerHost = (host: string) => {
     },
   };
 
-  serviceBusClient = new ServiceBusClient(
-    SB_CONNECTION_STRING,
-    serviceBusConfig,
-  );
+  serviceBusClient = new ServiceBusClient(SB_CONNECTION_STRING, serviceBusConfig);
   ServiceBusClientsPerHost[host] = serviceBusClient;
 
   return serviceBusClient;

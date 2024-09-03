@@ -1,6 +1,16 @@
-import { ISocketFactoryArgs, Kafka, KafkaConfig, logLevel as loggingLevel, Mechanism, SASLOptions } from "kafkajs";
-import net from "net";
-import tls from "tls";
+/* eslint-disable eslint-comments/disable-enable-pair */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import net from "node:net";
+import tls from "node:tls";
+
+import {
+  type ISocketFactoryArgs,
+  Kafka,
+  type KafkaConfig,
+  logLevel as loggingLevel,
+  type Mechanism,
+  type SASLOptions,
+} from "kafkajs";
 
 import {
   KAFKA_CLIENT_ENABLE_LOGS,
@@ -8,6 +18,9 @@ import {
   KAFKA_CLIENT_ID,
   KAFKA_CLIENT_MAX_RECONNECTION_ATTEMPTS,
   KAFKA_CLIENT_MAX_TIMEOUT,
+  KAFKA_CLIENT_SASL_MECHANISM,
+  KAFKA_CLIENT_SASL_PASSWORD,
+  KAFKA_CLIENT_SASL_USERNAME,
   KAFKA_CLIENT_SSL,
 } from "../../config";
 
@@ -41,7 +54,7 @@ export interface KafkaClientConfig {
   maxAttempts?: number;
   enableLogs?: boolean;
   logLevel?: loggingLevel;
-  ssl?: tls.ConnectionOptions | boolean;
+  ssl?: boolean | tls.ConnectionOptions;
   sasl?: SASLOptions | Mechanism;
   clientId?: string;
 }
@@ -52,6 +65,14 @@ const getConfig = (): KafkaClientConfig => ({
   maxAttempts: KAFKA_CLIENT_MAX_RECONNECTION_ATTEMPTS,
   enableLogs: KAFKA_CLIENT_ENABLE_LOGS,
   ssl: KAFKA_CLIENT_SSL,
+  sasl: KAFKA_CLIENT_SASL_PASSWORD
+    ? {
+        mechanism: KAFKA_CLIENT_SASL_MECHANISM!,
+        //@ts-expect-error
+        username: KAFKA_CLIENT_SASL_USERNAME,
+        password: KAFKA_CLIENT_SASL_PASSWORD,
+      }
+    : undefined,
   clientId: KAFKA_CLIENT_ID,
 });
 

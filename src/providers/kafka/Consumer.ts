@@ -1,8 +1,8 @@
 import { mapConcurrent } from "@otedesco/commons";
-import { Consumer, EachBatchPayload, Kafka } from "kafkajs";
-import _, { Dictionary } from "lodash";
+import type { Consumer, EachBatchPayload, Kafka } from "kafkajs";
+import _, { type Dictionary } from "lodash";
 
-import { ConsumerConfig, Topic } from "../../interfaces/ConsumerConfig";
+import type { ConsumerConfig, Topic } from "../../interfaces/ConsumerConfig";
 import { getClientPerHost } from "./Connection";
 
 interface ConsumerPerGroupIdType {
@@ -84,14 +84,14 @@ class KafkaConsumer {
 
         try {
           msg = value && JSON.parse(value.toString());
-          evt = key && key.toString();
+          evt = key?.toString();
         } catch (error) {
           // logger.error(`Malformed event: ${value}`);
           console.error(`Malformed event: ${value?.toString()}`);
         }
 
         try {
-          await topicConfig.handler?.(evt, msg);
+          await topicConfig?.handler?.(evt, msg);
         } catch (error) {
           // logger.error(
           //   `Failed to process (topic: ${topicName}, part: ${partition}, offset: ${offset}). Err: ${error.toString()}`
@@ -104,7 +104,7 @@ class KafkaConsumer {
           );
         }
       },
-      topicConfig.concurrency
+      topicConfig?.concurrency
     );
 
     // logger.info(`Done Processing batch: ${batchKey}. (Took: ${(Date.now() - startTime) / 1000}s)`);
