@@ -1,5 +1,11 @@
 # @otedesco/notify
 
+## 0.0.3
+
+### Patch Changes
+
+- [#6](https://github.com/otedesco/notify/pull/6) [`3a504cf`](https://github.com/otedesco/notify/commit/3a504cf8bbd907f3e5dff45ae8ec5fae1976a046) Thanks [@otedesco](https://github.com/otedesco)! - centralize gh wf
+
 ## 0.0.2
 
 ### Patch Changes
