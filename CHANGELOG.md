@@ -1,5 +1,11 @@
 # @otedesco/notify
 
+## 0.0.4
+
+### Patch Changes
+
+- [#8](https://github.com/otedesco/notify/pull/8) [`ba63d8d`](https://github.com/otedesco/notify/commit/ba63d8d59f3a490b0ebfeca26ad6c513a1f458e8) Thanks [@otedesco](https://github.com/otedesco)! - add notifySync feature
+
 ## 0.0.3
 
 ### Patch Changes
