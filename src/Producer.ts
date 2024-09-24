@@ -1,7 +1,8 @@
 import _ from "lodash";
 
 import { PROVIDER } from "./config";
-import { KafkaProducer, ServiceBusProducer } from "./providers";
+import { getService, KafkaProducer, ServiceBusProducer } from "./providers";
+import { Event } from "./types";
 
 const validateRequiredParams = (topic: string, suffix: string) => {
   if (typeof topic !== "string" || typeof suffix !== "string") {
@@ -9,7 +10,7 @@ const validateRequiredParams = (topic: string, suffix: string) => {
   }
 };
 
-const mapMessagesToEvents = <T>(messages: T, name: string, metadata = {}) => {
+const buildEvent = <T>(messages: T, name: string, metadata = {}): Event<T>[] => {
   const messagesToDispatch = Array.isArray(messages) ? messages : [messages];
   const timestamp = Date.now();
 
@@ -29,22 +30,49 @@ const getProducer = (): typeof ServiceBusProducer | typeof KafkaProducer => {
   return KafkaProducer;
 };
 
-export const notify = async <T>(
+const notify = async <T>(
+  topic: string,
+  suffix: string,
+  messages: T,
+  notifyStrategy: (topic: string, messages: Event<T>[]) => unknown,
+  metadata = {},
+  callback?: (topic: string, msgs: T) => void
+) => {
+  validateRequiredParams(topic, suffix);
+
+  if (!_.isEmpty(messages)) {
+    await notifyStrategy(topic, buildEvent(messages, suffix, metadata));
+
+    if (callback && typeof callback === "function") callback(topic, messages);
+
+    return true;
+  }
+
+  return false;
+};
+
+export const notifyAsync = async <T>(
   topic: string,
   suffix: string,
   messages: T,
   metadata = {},
-  callback?: (topic: string, msgs: T) => void,
+  callback?: (topic: string, msgs: T) => void
 ) => {
-  validateRequiredParams(topic, suffix);
-  if (!_.isEmpty(messages)) {
-    const msgs = mapMessagesToEvents(messages, suffix, metadata);
-    const isSent = await getProducer().validateAndSend(topic, msgs);
-
-    if (isSent && callback) {
-      callback(topic, messages);
-    }
-  }
+  const Producer = getProducer();
+  const sent = await notify(topic, suffix, messages, Producer.validateAndSend, metadata, callback);
+  // implement monitoring
+  return sent;
 };
 
-// TODO: Implement notify sync function
+export const notifySync = async <T>(
+  topic: string,
+  suffix: string,
+  messages: T,
+  metadata = {},
+  callback?: (topic: string, msgs: T) => void
+) => {
+  const Service = getService(topic);
+  const sent = await notify(topic, suffix, messages, Service.notify, metadata, callback);
+  // implement monitoring
+  return sent;
+};
