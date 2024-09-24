@@ -15,8 +15,8 @@ export type RequestResult = {
 };
 
 class RequestError extends Error {
-  constructor(message: any) {
-    super(message);
+  constructor(message: unknown) {
+    super(message instanceof Error ? message.message : (message as string));
     this.name = "RequestError";
   }
 }
@@ -42,8 +42,10 @@ export const makeRequest = async (url: string, options: RequestOptions): Promise
       },
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { data, status } = await axios(axiosOptions);
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     return { data, status };
   } catch (err) {
     throw new RequestError(err);
