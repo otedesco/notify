@@ -42,8 +42,8 @@
       {
         "argsIgnorePattern": "^_",
         "varsIgnorePattern": "^_",
-        "caughtErrorsIgnorePattern": "^_",
-      },
+        "caughtErrorsIgnorePattern": "^_"
+      }
     ],
     // TEMPORAL RULES
     "@typescript-eslint/no-unsafe-assignment": "warn",
