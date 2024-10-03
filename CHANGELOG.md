@@ -1,5 +1,11 @@
 # @otedesco/notify
 
+## 0.0.5
+
+### Patch Changes
+
+- [#10](https://github.com/otedesco/notify/pull/10) [`21171ba`](https://github.com/otedesco/notify/commit/21171bae44775560f4d6f2db90979c5fc909b9b8) Thanks [@otedesco](https://github.com/otedesco)! - do not send notifications if PRODUCE_EVENTS environment variable is false
+
 ## 0.0.4
 
 ### Patch Changes
