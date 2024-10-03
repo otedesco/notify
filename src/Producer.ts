@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { PROVIDER } from "./config";
+import { PRODUCE_EVENTS, PROVIDER } from "./config";
 import { getService, KafkaProducer, ServiceBusProducer } from "./providers";
 import { Event } from "./types";
 
@@ -38,6 +38,8 @@ const notify = async <T>(
   metadata = {},
   callback?: (topic: string, msgs: T) => void
 ) => {
+  if (!PRODUCE_EVENTS) return false;
+
   validateRequiredParams(topic, suffix);
 
   if (!_.isEmpty(messages)) {
