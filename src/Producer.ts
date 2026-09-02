@@ -10,7 +10,11 @@ const validateRequiredParams = (topic: string, suffix: string) => {
   }
 };
 
-const buildEvent = <T>(messages: T, name: string, metadata = {}): Event<T>[] => {
+const buildEvent = <T>(
+  messages: T,
+  name: string,
+  metadata = {},
+): Event<T>[] => {
   const messagesToDispatch = Array.isArray(messages) ? messages : [messages];
   const timestamp = Date.now();
 
@@ -36,7 +40,7 @@ const notify = async <T>(
   messages: T,
   notifyStrategy: (topic: string, messages: Event<T>[]) => unknown,
   metadata = {},
-  callback?: (topic: string, msgs: T) => void
+  callback?: (topic: string, msgs: T) => void,
 ) => {
   if (!PRODUCE_EVENTS) return false;
 
@@ -58,10 +62,17 @@ export const notifyAsync = async <T>(
   suffix: string,
   messages: T,
   metadata = {},
-  callback?: (topic: string, msgs: T) => void
+  callback?: (topic: string, msgs: T) => void,
 ) => {
   const Producer = getProducer();
-  const sent = await notify(topic, suffix, messages, Producer.validateAndSend, metadata, callback);
+  const sent = await notify(
+    topic,
+    suffix,
+    messages,
+    Producer.validateAndSend,
+    metadata,
+    callback,
+  );
   // implement monitoring
   return sent;
 };
@@ -71,10 +82,17 @@ export const notifySync = async <T>(
   suffix: string,
   messages: T,
   metadata = {},
-  callback?: (topic: string, msgs: T) => void
+  callback?: (topic: string, msgs: T) => void,
 ) => {
   const Service = getService(topic);
-  const sent = await notify(topic, suffix, messages, Service.notify, metadata, callback);
+  const sent = await notify(
+    topic,
+    suffix,
+    messages,
+    Service.notify,
+    metadata,
+    callback,
+  );
   // implement monitoring
   return sent;
 };
