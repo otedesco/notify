@@ -30,7 +30,10 @@ const defaultOptions = {
   timeout: 10000,
 };
 
-export const makeRequest = async (url: string, options: RequestOptions): Promise<RequestResult> => {
+export const makeRequest = async (
+  url: string,
+  options: RequestOptions,
+): Promise<RequestResult> => {
   try {
     const axiosOptions = {
       ...defaultOptions,

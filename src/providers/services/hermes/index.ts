@@ -8,7 +8,8 @@ import { Event } from "../../../types";
 import { makeRequest, RequestResult } from "../request";
 
 const throwIfStatusIsNotOk = (result: RequestResult) => {
-  if (result.status !== 200) throw new Error(`Got ${result.status} invoking notify!!!`);
+  if (result.status !== 200)
+    throw new Error(`Got ${result.status} invoking notify!!!`);
 };
 
 export const notify = async (_topic: string, data: Event<unknown>[]) => {
