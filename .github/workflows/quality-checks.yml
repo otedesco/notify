@@ -2,9 +2,6 @@ name: Quality checks
 
 on:
   workflow_call:
-    secrets:
-      NPM_TOKEN:
-        required: false
   pull_request:
     types: [opened, edited, reopened, synchronize]
     branches:
@@ -12,13 +9,8 @@ on:
       - "develop"
       - "stage"
 
-permissions:
-  contents: read
-
 jobs:
   lint-and-test:
-    permissions:
-      contents: read
     uses: otedesco/gh-action-templates/.github/workflows/lint-and-test.yml@46eefa62da65e573739f4ac686560cd14bb7849b # central quality workflow release 2026-09-02
     with:
       registry-auth-required: true
