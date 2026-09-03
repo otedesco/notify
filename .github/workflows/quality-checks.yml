@@ -2,6 +2,9 @@ name: Quality checks
 
 on:
   workflow_call:
+    secrets:
+      NPM_TOKEN:
+        required: false
   pull_request:
     types: [opened, edited, reopened, synchronize]
     branches:
@@ -9,9 +12,14 @@ on:
       - "develop"
       - "stage"
 
+permissions:
+  contents: read
+
 jobs:
   lint-and-test:
-    uses: otedesco/gh-action-templates/.github/workflows/lint-and-test.yml@9282fc2387d782afa7d461afbd51c89a1918abdb # OPS-182 consumer compatibility fix
+    permissions:
+      contents: read
+    uses: otedesco/gh-action-templates/.github/workflows/lint-and-test.yml@528e0d92182a23a12f9d6d4dae67c4b0e98fcffb # OPS-183 least-privilege workflows
     with:
       registry-auth-required: true
     secrets:
