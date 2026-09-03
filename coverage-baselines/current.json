@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "repository": "notify",
+  "commit": "f1ae9dbf964ef143fa812b8f6ce311742cba71f8",
+  "timestamp": "2026-09-03T00:00:00Z",
+  "metrics": {
+    "statements": { "covered": 4, "total": 1053, "percent": 0.3798670465337132 },
+    "branches": { "covered": 1, "total": 18, "percent": 5.555555555555555 },
+    "functions": { "covered": 0, "total": 17, "percent": 0 },
+    "lines": { "covered": 4, "total": 1053, "percent": 0.3798670465337132 }
+  }
+}
